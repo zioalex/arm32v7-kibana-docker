@@ -3,7 +3,7 @@ https://github.com/herpiko/arm32v7-elk-docker
 This is ELK image for armhf/arm32v7 architecture based on https://github.com/spujadas/elk-docker.
 
 ```
-docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it herpiko/arm32v7-elk
+docker run -p 5601:5601 -p 9200:9200 -it herpiko/arm32v7-elk
 ```
 
 What to expect :
