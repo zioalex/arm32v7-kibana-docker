@@ -23,6 +23,10 @@ _term() {
 
 trap _term SIGTERM SIGINT
 
+# Disable by default ELASTICSEARCH and LOGSTASH
+ELASTICSEARCH_START=0
+LOGSTASH_START=0
+
 
 ## remove pidfiles in case previous graceful termination failed
 # NOTE - This is the reason for the WARNING at the top - it's a bit hackish,
@@ -62,6 +66,8 @@ if [ -z "$ELASTICSEARCH_START" ]; then
 fi
 if [ "$ELASTICSEARCH_START" -ne "1" ]; then
   echo "ELASTICSEARCH_START is set to something different from 1, not starting..."
+  echo "Updating the kibana.yml to use the passed ElasticSearch at the URL: ${ELASTICSEARCH_URL}"
+  sed -i "s|__{ELASTICSEARCH_URL}__|\"${ELASTICSEARCH_URL}\"|g" "${KIBANA_HOME}/config/kibana.yml"
 else
   # update permissions of ES data directory
   chown -R elasticsearch:elasticsearch /var/lib/elasticsearch
