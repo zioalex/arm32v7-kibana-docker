@@ -7,9 +7,12 @@
 # Run with:
 # docker run -p 5601:5601 -it --env "ELASTICSEARCH_URL=http://elasticsearch:9200"--name kibana <repo-user>/kibana
 
+# Build with on amd64
+# See https://www.docker.com/blog/getting-started-with-docker-for-arm-on-linux/ to know how to setup the muilbuild arch
+# docker buildx build --platform linux/arm/v7 -t zioalex/arm32v7-kibana .
 FROM arm32v7/ubuntu
 MAINTAINER Alessandro Surace
-ARG ELK_VERSION=7.7.1
+ARG ELK_VERSION=7.0.1
 ENV \
  REFRESHED_AT=2017-02-28 \
  KIBANA_VERSION=$ELK_VERSION
@@ -26,7 +29,7 @@ RUN set -x \
  && apt install -qqy --no-install-recommends ca-certificates curl gosu tzdata openjdk-8-jdk cron libjna-java vim wget \
  && apt clean \
  && rm -rf /var/lib/apt/lists/* \
- && gosu nobody true \
+ # && gosu nobody true \ # gosu smoke test
  && set +x
 
 # ### install Elasticsearch
